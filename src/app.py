@@ -38,6 +38,41 @@ def handle_hello():
 
     return jsonify(response_body), 200
 
+app.route('/members', methods=['POST'])
+def add_member():
+    body=request.get_json()
+    {
+
+    }
+    if isinstance(body, dict):
+        jackson_family.add_member(body)
+        return jsonify({"msg":"member added"}), 200
+    else:
+        return jsonify({"msg":"bad request"}), 400
+    return jsonify(response_body), 200
+    # this is how you can use the Family datastructure by calling its methods
+
+    return jsonify(response_body), 200
+
+app.route('/member/<int:member_id>', methods=['GET'])
+def get_member(member_id):
+    print("id del miembro de la familia:", member_id)
+    member = jackson_family.get_member(member_id)
+    if member:
+        return jsonify(member), 200
+    else:
+        return jsonify({"msg":False}), 400
+
+app.route('/member/<int:member_id>', methods=['PUT'])
+def update_member(member_id):
+    body = request.get_json()
+    print("id del miembro de la familia:", member_id)
+    message = jackson_family.update(member_id, body)
+    if message:
+        return jsonify(message), 200
+    else:
+        return jsonify("No se encontro miembro"), 400
+
 # this only runs if `$ python src/app.py` is executed
 if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 3000))
