@@ -72,7 +72,15 @@ def update_member(member_id):
         return jsonify(message), 200
     else:
         return jsonify("No se encontro miembro"), 400
+    
+@app.route('/member/<int:member_id>', methods=['DELETE'])
+def delete_member(member_id):
+    member = jackson_family.delete_member(member_id)
+    if member is None:
+        return jsonify({'msg': 'No existe ese miembro'}), 404
 
+    return jsonify({'done': True}), 200
+    
 # this only runs if `$ python src/app.py` is executed
 if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 3000))
